@@ -3,8 +3,7 @@
 .helm/
 
 # Secrets - NEVER commit actual secrets!
-**/secrets-*.yaml
-**/*-secrets.yaml
+values-secrets-*.yaml
 
 # IDE
 .vscode/
