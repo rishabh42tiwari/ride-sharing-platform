@@ -48,4 +48,8 @@ spec:
                 secretKeyRef:
                   name: stripe-secrets
                   key: stripe-webhook-key
+            - name: TRIP_SERVICE_URL
+              value: "{{ .Values.tripService.name }}:{{ .Values.tripService.service.port }}"
+            - name: DRIVER_SERVICE_URL
+              value: "{{ .Values.driverService.name }}:{{ .Values.driverService.service.port }}"
 {{- end }}

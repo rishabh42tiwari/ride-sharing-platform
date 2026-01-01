@@ -43,4 +43,6 @@ spec:
                 secretKeyRef:
                   name: mongodb
                   key: uri
+            - name: GRPC_ADDR
+              value: ":{{ .Values.tripService.service.port }}"
 {{- end }}
