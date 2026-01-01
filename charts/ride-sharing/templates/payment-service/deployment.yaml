@@ -1,0 +1,46 @@
+{{- if .Values.paymentService.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.paymentService.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.paymentService.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.paymentService.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.paymentService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.paymentService.name }}
+          image: {{ .Values.paymentService.image.repository }}:{{ .Values.paymentService.image.tag }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.paymentService.service.port }}
+          resources:
+            requests:
+              memory: {{ .Values.paymentService.resources.requests.memory | quote }}
+              cpu: {{ .Values.paymentService.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.paymentService.resources.limits.memory | quote }}
+              cpu: {{ .Values.paymentService.resources.limits.cpu | quote }}
+          env:
+            - name: RABBITMQ_URI
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-credentials
+                  key: uri
+            - name: JAEGER_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  key: JAEGER_ENDPOINT
+                  name: app-config
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secrets
+                  key: stripe-secret-key
+{{- end }}

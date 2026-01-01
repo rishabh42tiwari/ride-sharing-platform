@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: {{ .Values.global.namespace }}
+data:
+  ENVIRONMENT: {{ .Values.appConfig.environment | quote }}
+  JAEGER_ENDPOINT: {{ .Values.appConfig.jaegerEndpoint | quote }}
+  GATEWAY_HTTP_ADDR: {{ .Values.appConfig.gatewayHttpAddr | quote }}
+  STRIPE_SUCCESS_URL: {{ .Values.appConfig.stripeSuccessUrl | quote }}
+  STRIPE_CANCEL_URL: {{ .Values.appConfig.stripeCancelUrl | quote }}

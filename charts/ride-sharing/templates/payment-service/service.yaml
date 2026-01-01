@@ -1,0 +1,15 @@
+{{- if .Values.paymentService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.paymentService.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  type: {{ .Values.paymentService.service.type }}
+  ports:
+    - port: {{ .Values.paymentService.service.port }}
+      name: {{ .Values.paymentService.service.name }}
+      targetPort: {{ .Values.paymentService.service.port }}
+  selector:
+    app: {{ .Values.paymentService.name }}
+{{- end }}

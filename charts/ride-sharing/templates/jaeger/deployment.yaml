@@ -1,0 +1,35 @@
+{{- if .Values.jaeger.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.jaeger.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.jaeger.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.jaeger.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.jaeger.name }}
+    spec:
+      containers:
+        - name: {{ .Values.jaeger.name }}
+          image: {{ .Values.jaeger.image.repository }}:{{ .Values.jaeger.image.tag }}
+          ports:
+            {{- range .Values.jaeger.service.ports }}
+            - containerPort: {{ .port }}
+              name: {{ .name }}
+            {{- end }}
+          resources:
+            requests:
+              memory: {{ .Values.jaeger.resources.requests.memory | quote }}
+              cpu: {{ .Values.jaeger.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.jaeger.resources.limits.memory | quote }}
+              cpu: {{ .Values.jaeger.resources.limits.cpu | quote }}
+          env:
+            - name: COLLECTOR_ZIPKIN_HOST_PORT
+              value: ":9411"
+{{- end }}

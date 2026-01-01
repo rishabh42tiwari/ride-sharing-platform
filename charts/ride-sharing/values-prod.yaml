@@ -1,0 +1,92 @@
+# Production Environment Values
+# This file contains ONLY the values that differ from the base values.yaml
+
+global:
+  namespace: ride-sharing-prod
+  environment: production
+  imagePullPolicy: IfNotPresent  # Pull from registry in prod
+
+# Production-specific resource limits (larger for production)
+apiGateway:
+  replicas: 3  # High availability
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  service:
+    type: ClusterIP  # Use Ingress in prod
+
+driverService:
+  replicas: 2
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "200m"
+    limits:
+      memory: "256Mi"
+      cpu: "400m"
+
+paymentService:
+  replicas: 2
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "200m"
+    limits:
+      memory: "256Mi"
+      cpu: "400m"
+
+tripService:
+  replicas: 2
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "200m"
+    limits:
+      memory: "256Mi"
+      cpu: "400m"
+
+web:
+  replicas: 2
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  service:
+    type: ClusterIP  # Use Ingress in prod
+
+rabbitmq:
+  replicas: 1
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+
+jaeger:
+  enabled: false  # Use external Jaeger in production
+
+# Production secrets (DO NOT commit actual values!)
+# These should be managed via secrets-prod.yaml
+secrets:
+  rabbitmq:
+    enabled: true
+  externalApis:
+    enabled: true
+  stripe:
+    enabled: true
+  mongodb:
+    enabled: true
+# Production-specific app config
+appConfig:
+  environment: "production"
+  stripeSuccessUrl: "https://your-domain.com?payment=success"
+  stripeCancelUrl: "https://your-domain.com?payment=cancel"

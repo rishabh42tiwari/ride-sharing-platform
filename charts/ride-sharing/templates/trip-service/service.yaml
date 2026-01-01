@@ -1,0 +1,15 @@
+{{- if .Values.tripService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.tripService.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  type: {{ .Values.tripService.service.type }}
+  ports:
+    - port: {{ .Values.tripService.service.port }}
+      name: {{ .Values.tripService.service.name }}
+      targetPort: {{ .Values.tripService.service.port }}
+  selector:
+    app: {{ .Values.tripService.name }}
+{{- end }}

@@ -1,46 +1,14 @@
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must end with two \r
-Icon
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
 # Helm
 *.tgz
 .helm/
 
+# Secrets - NEVER commit actual secrets!
+**/secrets-*.yaml
+**/*-secrets.yaml
+
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
 
-# Temporary files
-*.tmp
-*.bak
-*.log
-
-# Custom values files (optional - uncomment if you want to ignore custom values)
-# custom-values.yaml
-# *-values.yaml
+# macOS
+.DS_Store

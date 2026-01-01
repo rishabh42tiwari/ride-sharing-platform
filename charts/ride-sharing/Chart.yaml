@@ -1,0 +1,8 @@
+apiVersion: v2
+name: ride-sharing-platform
+description: A Helm chart for ride-sharing microservices platform
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Rishabh Tiwari

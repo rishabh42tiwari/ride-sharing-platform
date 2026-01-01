@@ -1,0 +1,41 @@
+{{- if .Values.driverService.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.driverService.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.driverService.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.driverService.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.driverService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.driverService.name }}
+          image: {{ .Values.driverService.image.repository }}:{{ .Values.driverService.image.tag }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.driverService.service.port }}
+          resources:
+            requests:
+              memory: {{ .Values.driverService.resources.requests.memory | quote }}
+              cpu: {{ .Values.driverService.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.driverService.resources.limits.memory | quote }}
+              cpu: {{ .Values.driverService.resources.limits.cpu | quote }}
+          env:
+            - name: RABBITMQ_URI
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-credentials
+                  key: uri
+            - name: JAEGER_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  key: JAEGER_ENDPOINT
+                  name: app-config
+{{- end }}

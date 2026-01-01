@@ -1,0 +1,36 @@
+# Development Environment Values
+# This file contains ONLY the values that differ from the base values.yaml
+# This file is SAFE to commit to Git (no secrets here!)
+
+global:
+  namespace: ride-sharing-dev
+  environment: development
+  imagePullPolicy: Never  # Use local images in dev
+
+# Development-specific resource limits (smaller for local dev)
+apiGateway:
+  replicas: 1
+  service:
+    type: LoadBalancer  # For local access
+
+web:
+  replicas: 1
+  service:
+    type: LoadBalancer  # For local access
+
+# Enable all secrets (actual values in secrets-dev.yaml)
+secrets:
+  rabbitmq:
+    enabled: true
+  externalApis:
+    enabled: true
+  stripe:
+    enabled: true
+  mongodb:
+    enabled: true
+
+# Development-specific app config
+appConfig:
+  environment: "development"
+  stripeSuccessUrl: "http://localhost:3000?payment=success"
+  stripeCancelUrl: "http://localhost:3000?payment=cancel"

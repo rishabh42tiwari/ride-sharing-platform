@@ -1,0 +1,46 @@
+{{- if .Values.tripService.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.tripService.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  replicas: {{ .Values.tripService.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.tripService.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.tripService.name }}
+    spec:
+      containers:
+        - name: {{ .Values.tripService.name }}
+          image: {{ .Values.tripService.image.repository }}:{{ .Values.tripService.image.tag }}
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.tripService.service.port }}
+          resources:
+            requests:
+              memory: {{ .Values.tripService.resources.requests.memory | quote }}
+              cpu: {{ .Values.tripService.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.tripService.resources.limits.memory | quote }}
+              cpu: {{ .Values.tripService.resources.limits.cpu | quote }}
+          env:
+            - name: RABBITMQ_URI
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-credentials
+                  key: uri
+            - name: JAEGER_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  key: JAEGER_ENDPOINT
+                  name: app-config
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: uri
+{{- end }}

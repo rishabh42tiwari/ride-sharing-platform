@@ -1,0 +1,15 @@
+{{- if .Values.driverService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.driverService.name }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  type: {{ .Values.driverService.service.type }}
+  ports:
+    - port: {{ .Values.driverService.service.port }}
+      name: {{ .Values.driverService.service.name }}
+      targetPort: {{ .Values.driverService.service.port }}
+  selector:
+    app: {{ .Values.driverService.name }}
+{{- end }}
