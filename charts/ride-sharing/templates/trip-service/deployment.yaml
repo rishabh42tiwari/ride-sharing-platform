@@ -43,6 +43,11 @@ spec:
                 secretKeyRef:
                   name: mongodb
                   key: uri
+            - name: OSRM_API
+              valueFrom:
+                secretKeyRef:
+                  name: external-apis
+                  key: osrm
             - name: GRPC_ADDR
               value: ":{{ .Values.tripService.service.port }}"
 {{- end }}

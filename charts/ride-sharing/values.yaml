@@ -55,7 +55,7 @@ paymentService:
     tag: latest
   service:
     type: ClusterIP
-    port: 9093
+    port: 9004
     name: grpc
   resources:
     requests:
