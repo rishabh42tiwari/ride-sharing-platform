@@ -32,7 +32,7 @@ spec:
             memory: {{ .Values.web.resources.limits.memory | quote }}
         env:
         - name: NODE_ENV
-          value: {{ .Values.global.environment | quote }}
+          value: {{ .Values.web.nodeEnv | default .Values.global.environment | quote }}
         - name: NEXT_PUBLIC_API_URL
           value: "http://api-gateway:8081"
         - name: NEXT_PUBLIC_WEBSOCKET_URL

@@ -17,6 +17,7 @@ web:
   replicas: 1
   service:
     type: LoadBalancer  # For local access
+  nodeEnv: "production"
 
 # Enable all secrets (actual values in secrets-dev.yaml)
 secrets:
